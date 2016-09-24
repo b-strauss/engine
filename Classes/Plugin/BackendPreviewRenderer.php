@@ -1,6 +1,6 @@
 <?php
 
-namespace BStrauss\Engine2\Plugin;
+namespace BStrauss\Engine\Plugin;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -59,7 +59,7 @@ abstract class BackendPreviewRenderer {
 
   /**
    * @param \TYPO3\CMS\Extbase\Persistence\Repository $contentRepository
-   * @return \BStrauss\Engine2\Domain\Model\AbstractContent
+   * @return \BStrauss\Engine\Domain\Model\AbstractContent
    */
   protected function getContent($contentRepository) {
     return $contentRepository->findByUid($this->contentUid);

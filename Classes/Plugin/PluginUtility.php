@@ -1,8 +1,8 @@
 <?php
 
-namespace BStrauss\Engine2\Plugin;
+namespace BStrauss\Engine\Plugin;
 
-use BStrauss\Engine2\Utils\LocalizationUtility;
+use BStrauss\Engine\Utils\LocalizationUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
@@ -91,7 +91,7 @@ class PluginUtility {
   /**
    * Registers a class to render the backend preview. The class needs to extend BackendPreviewManager.
    *
-   * @see {\BStrauss\Engine2\Plugin\BackendPreviewManager}
+   * @see {\BStrauss\Engine\Plugin\BackendPreviewManager}
    *
    * The render method can be used to set template variables.
    *
@@ -272,13 +272,13 @@ class PluginUtility {
    * @return string
    */
   static function buildBackendTabs($includeFlexform = false) {
-    $contentAccess = LocalizationUtility::translateBackend('backend_tab.content_access', 'engine2');
-    $general = LocalizationUtility::translateBackend('backend_tab.general', 'engine2');
+    $contentAccess = LocalizationUtility::translateBackend('backend_tab.content_access', 'engine');
+    $general = LocalizationUtility::translateBackend('backend_tab.general', 'engine');
 
     $configString = '';
 
     if ($includeFlexform) {
-      $pluginConfiguration = LocalizationUtility::translateBackend('backend_tab.plugin_configuration', 'engine2');
+      $pluginConfiguration = LocalizationUtility::translateBackend('backend_tab.plugin_configuration', 'engine');
 
       $configString .= "
         --div--;$pluginConfiguration,

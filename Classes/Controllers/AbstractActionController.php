@@ -1,8 +1,8 @@
 <?php
 
-namespace BStrauss\Engine2\Controllers;
+namespace BStrauss\Engine\Controllers;
 
-use BStrauss\Engine2\Utils\LocalizationUtility;
+use BStrauss\Engine\Utils\LocalizationUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
@@ -24,7 +24,7 @@ class AbstractActionController extends ActionController {
 
   /**
    * @param \TYPO3\CMS\Extbase\Persistence\Repository $contentRepository
-   * @return \BStrauss\Engine2\Domain\Model\AbstractContent
+   * @return \BStrauss\Engine\Domain\Model\AbstractContent
    */
   protected function getContent($contentRepository) {
     return $contentRepository->findByUid($this->data['uid']);

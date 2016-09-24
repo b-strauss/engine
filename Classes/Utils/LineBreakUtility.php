@@ -1,6 +1,6 @@
 <?php
 
-namespace BStrauss\Engine2\Utils;
+namespace BStrauss\Engine\Utils;
 
 class LineBreakUtility {
   static $hardBreakReplacement = '|';

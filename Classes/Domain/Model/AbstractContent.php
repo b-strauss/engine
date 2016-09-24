@@ -1,6 +1,6 @@
 <?php
 
-namespace BStrauss\Engine2\Domain\Model;
+namespace BStrauss\Engine\Domain\Model;
 
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace BStrauss\Engine2\Utils;
+namespace BStrauss\Engine\Utils;
 
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility as Typo3LocalizationUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;

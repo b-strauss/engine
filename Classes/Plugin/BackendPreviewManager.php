@@ -1,6 +1,6 @@
 <?php
 
-namespace BStrauss\Engine2\Plugin;
+namespace BStrauss\Engine\Plugin;
 
 use TYPO3\CMS\Backend\View\PageLayoutView;
 use TYPO3\CMS\Backend\View\PageLayoutViewDrawItemHookInterface;

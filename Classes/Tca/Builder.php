@@ -1,6 +1,6 @@
 <?php
 
-namespace BStrauss\Engine2\Tca;
+namespace BStrauss\Engine\Tca;
 
 /**
  * https://docs.typo3.org/typo3cms/TCAReference/Reference/Index.html
@@ -274,7 +274,7 @@ class Builder {
         'label' => $this->label,
         'label_alt' => $this->labelAlt,
         'label_alt_force' => $this->labelAltForce,
-        'iconfile' => 'EXT:engine2/Resources/Public/Icons/tca_model_element.svg',
+        'iconfile' => 'EXT:engine/Resources/Public/Icons/tca_model_element.svg',
         'searchFields' => implode(',', $this->searchFields),
         // default fields
         'sortby' => 'sorting',
