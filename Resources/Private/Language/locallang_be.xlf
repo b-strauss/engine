@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff version="1.0">
+  <file>
+    <body>
+      <trans-unit id="backend_tab.plugin_configuration" xml:space="preserve">
+        <source>Plugin Configuration</source>
+      </trans-unit>
+      <trans-unit id="backend_tab.content_access" xml:space="preserve">
+        <source>Content Access</source>
+      </trans-unit>
+      <trans-unit id="backend_tab.general" xml:space="preserve">
+        <source>General</source>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

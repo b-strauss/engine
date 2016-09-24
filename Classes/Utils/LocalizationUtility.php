@@ -1,0 +1,100 @@
+<?php
+
+namespace BStrauss\Engine2\Utils;
+
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility as Typo3LocalizationUtility;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
+
+class LocalizationUtility {
+  /**
+   * @param string $key
+   * @param string $extensionName
+   * @param array|null $arguments
+   * @param bool $htmlEscape
+   * @return string
+   */
+  static function translate($key, $extensionName, array $arguments = null, $htmlEscape = false) {
+    $value = Typo3LocalizationUtility::translate($key, $extensionName, $arguments);
+
+    if (empty($value) === true) {
+      $value = $key;
+    } else if ($htmlEscape === true) {
+      $value = htmlspecialchars($value);
+    }
+
+    return $value;
+  }
+
+  /**
+   * @param string $key
+   * @param string $extensionName
+   * @param array|null $arguments
+   * @param bool $htmlEscape
+   * @return string
+   */
+  static function translateBackend($key, $extensionName, array $arguments = null, $htmlEscape = false) {
+    $value = Typo3LocalizationUtility::translate(
+        "LLL:EXT:$extensionName/Resources/Private/Language/locallang_be.xlf:$key",
+        null,
+        $arguments
+    );
+
+    if (empty($value) === true) {
+      $value = $key;
+    } else if ($htmlEscape === true) {
+      $value = htmlspecialchars($value);
+    }
+
+    return $value;
+  }
+
+  /**
+   * @return TypoScriptFrontendController
+   */
+  static private function getTsfe() {
+    return $GLOBALS['TSFE'];
+  }
+
+  /**
+   * @return array
+   */
+  static private function getTypoScriptConfig() {
+    return LocalizationUtility::getTsfe()->config;
+  }
+
+  /**
+   * @return int
+   */
+  static function getSysLanguageUid() {
+    $ts = LocalizationUtility::getTypoScriptConfig();
+
+    return intval($ts['config']['sys_language_uid']);
+  }
+
+  /**
+   * @return string
+   */
+  static function getLanguage() {
+    $ts = LocalizationUtility::getTypoScriptConfig();
+
+    return $ts['config']['language'];
+  }
+
+  /**
+   * @return string
+   */
+  static function getHtmlLanguage() {
+    $ts = LocalizationUtility::getTypoScriptConfig();
+
+    return $ts['config']['htmlTag_langKey'];
+  }
+
+  /**
+   * @return string
+   */
+  static function getLocale() {
+    $ts = LocalizationUtility::getTypoScriptConfig();
+
+    return $ts['config']['locale_all'];
+  }
+}
