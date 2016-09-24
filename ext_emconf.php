@@ -5,7 +5,7 @@
  */
 
 $EM_CONF[$_EXTKEY] = [
-    'title' => 'Engine 2',
+    'title' => 'Engine',
     'description' => 'Typo3 extension utilities',
     'category' => 'misc',
     'constraints' => [

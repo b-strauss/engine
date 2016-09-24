@@ -14,6 +14,7 @@ options {
 - css styled content
 - realurl
 - vhs
+- engine
 
 ## create a new page and make it a rootpage
 edit page:
