@@ -190,8 +190,8 @@ class Builder {
    * @param int $exclude
    * @param null|string|array $displayCondition
    */
-  private function buildColumnField($name, $label, $config, $searchable = true, $defaultExtras = null,
-                                    $exclude = 1, $displayCondition = null) {
+  public function buildColumnField($name, $label, $config, $searchable = true, $defaultExtras = null,
+                                   $exclude = 1, $displayCondition = null) {
     $array = [
         'label' => $label,
         'config' => $config,
