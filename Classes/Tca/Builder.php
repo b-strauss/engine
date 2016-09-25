@@ -306,11 +306,14 @@ class Builder {
    * @param bool $searchable
    * @param int $exclude
    * @param null|string|array $displayCondition
+   * @return $this
    */
   public function addInput($name, $label, $eval = '', $placeholder = '',
                            $searchable = true, $exclude = 1, $displayCondition = null) {
     $this->buildInput($name, $label, $eval, '', 255, $placeholder,
                       [], $searchable, null, $exclude, $displayCondition);
+
+    return $this;
   }
 
   /**
@@ -321,11 +324,14 @@ class Builder {
    * @param bool $searchable
    * @param int $exclude
    * @param null|string|array $displayCondition
+   * @return $this
    */
   public function addText($name, $label, $eval = '', $placeholder = '',
                           $searchable = true, $exclude = 1, $displayCondition = null) {
     $this->buildText($name, $label, $eval, '', $placeholder, 30, 5,
                      $searchable, null, $exclude, $displayCondition);
+
+    return $this;
   }
 
   public function build() {
