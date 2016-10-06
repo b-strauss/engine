@@ -190,8 +190,8 @@ class Builder {
    * @param int $exclude
    * @param null|string|array $displayCondition
    */
-  public function buildColumnField($name, $label, $config, $searchable = true, $defaultExtras = null,
-                                   $exclude = 1, $displayCondition = null) {
+  public function addColumn($name, $label, $config, $searchable = true, $defaultExtras = null,
+                            $exclude = 1, $displayCondition = null) {
     $array = [
         'label' => $label,
         'config' => $config,
@@ -212,90 +212,6 @@ class Builder {
       $array['displayCond'] = $displayCondition;
 
     $this->columns[$name] = $array;
-  }
-
-  /**
-   * @param string $name
-   * @param string $label
-   * @param string $eval
-   * @param string $format
-   * @param int $max
-   * @param string $placeholder
-   * @param array $range
-   * @param bool $searchable
-   * @param string|null $defaultExtras
-   * @param int $exclude
-   * @param null|string|array $displayCondition
-   */
-  private function buildInput($name, $label, $eval = '', $format = '', $max = 255, $placeholder = '', $range = [],
-                              $searchable = true, $defaultExtras = null, $exclude = 1, $displayCondition = null) {
-    $this->buildColumnField($name, $label, [
-        'type' => 'input',
-        'size' => 30,
-        'eval' => $eval,
-        'format' => $format,
-        'max' => $max,
-        'placeholder' => $placeholder,
-        'range' => $range,
-    ], $searchable, $defaultExtras, $exclude, $displayCondition);
-  }
-
-  /**
-   * @param string $name
-   * @param string $label
-   * @param string $eval
-   * @param string $format
-   * @param string $placeholder
-   * @param int $cols
-   * @param int $rows
-   * @param bool $searchable
-   * @param string|null $defaultExtras
-   * @param int $exclude
-   * @param null|string|array $displayCondition
-   */
-  private function buildText($name, $label, $eval = '', $format = '', $placeholder = '', $cols = 30, $rows = 5,
-                             $searchable = true, $defaultExtras = null, $exclude = 1, $displayCondition = null) {
-    $this->buildColumnField($name, $label, [
-        'type' => 'text',
-        'eval' => $eval,
-        'format' => $format,
-        'placeholder' => $placeholder,
-        'cols' => $cols,
-        'rows' => $rows,
-    ], $searchable, $defaultExtras, $exclude, $displayCondition);
-  }
-
-  /**
-   * @return array
-   */
-  private function buildCtrl() {
-    $ctrl = [
-        'title' => $this->title,
-        'label' => $this->label,
-        'label_alt' => $this->labelAlt,
-        'label_alt_force' => $this->labelAltForce,
-        'iconfile' => 'EXT:engine/Resources/Public/Icons/tca_model_element.svg',
-        'searchFields' => implode(',', $this->searchFields),
-        // default fields
-        'sortby' => 'sorting',
-        'tstamp' => 'modified_at',
-        'crdate' => 'created_at',
-        'cruser_id' => 'created_by',
-        'delete' => 'deleted',
-        'enablecolumns' => [
-            'disabled' => 'hidden',
-            'starttime' => 'starttime',
-            'endtime' => 'endtime',
-        ],
-    ];
-
-    if ($this->explicitLocalization) {
-      $ctrl['languageField'] = 'sys_language_uid';
-      $ctrl['transOrigPointerField'] = 'l18n_parent';
-      $ctrl['transOrigDiffSourceField'] = 'l18n_diffsource';
-    }
-
-    return $ctrl;
   }
 
   /**
@@ -353,5 +269,89 @@ class Builder {
             '1' => ['showitem' => ''],
         ],
     ];
+  }
+
+  /**
+   * @param string $name
+   * @param string $label
+   * @param string $eval
+   * @param string $format
+   * @param int $max
+   * @param string $placeholder
+   * @param array $range
+   * @param bool $searchable
+   * @param string|null $defaultExtras
+   * @param int $exclude
+   * @param null|string|array $displayCondition
+   */
+  private function buildInput($name, $label, $eval = '', $format = '', $max = 255, $placeholder = '', $range = [],
+                              $searchable = true, $defaultExtras = null, $exclude = 1, $displayCondition = null) {
+    $this->addColumn($name, $label, [
+        'type' => 'input',
+        'size' => 30,
+        'eval' => $eval,
+        'format' => $format,
+        'max' => $max,
+        'placeholder' => $placeholder,
+        'range' => $range,
+    ], $searchable, $defaultExtras, $exclude, $displayCondition);
+  }
+
+  /**
+   * @param string $name
+   * @param string $label
+   * @param string $eval
+   * @param string $format
+   * @param string $placeholder
+   * @param int $cols
+   * @param int $rows
+   * @param bool $searchable
+   * @param string|null $defaultExtras
+   * @param int $exclude
+   * @param null|string|array $displayCondition
+   */
+  private function buildText($name, $label, $eval = '', $format = '', $placeholder = '', $cols = 30, $rows = 5,
+                             $searchable = true, $defaultExtras = null, $exclude = 1, $displayCondition = null) {
+    $this->addColumn($name, $label, [
+        'type' => 'text',
+        'eval' => $eval,
+        'format' => $format,
+        'placeholder' => $placeholder,
+        'cols' => $cols,
+        'rows' => $rows,
+    ], $searchable, $defaultExtras, $exclude, $displayCondition);
+  }
+
+  /**
+   * @return array
+   */
+  private function buildCtrl() {
+    $ctrl = [
+        'title' => $this->title,
+        'label' => $this->label,
+        'label_alt' => $this->labelAlt,
+        'label_alt_force' => $this->labelAltForce,
+        'iconfile' => 'EXT:engine/Resources/Public/Icons/tca_model_element.svg',
+        'searchFields' => implode(',', $this->searchFields),
+        // default fields
+        'sortby' => 'sorting',
+        'tstamp' => 'modified_at',
+        'crdate' => 'created_at',
+        'cruser_id' => 'created_by',
+        'delete' => 'deleted',
+        'enablecolumns' => [
+            'disabled' => 'hidden',
+            'starttime' => 'starttime',
+            'endtime' => 'endtime',
+        ],
+    ];
+
+    if ($this->explicitLocalization) {
+      $ctrl['languageField'] = 'sys_language_uid';
+      $ctrl['transOrigPointerField'] = 'l18n_parent';
+      $ctrl['transOrigDiffSourceField'] = 'l18n_diffsource';
+    }
+
+    return $ctrl;
   }
 }
