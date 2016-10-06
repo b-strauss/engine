@@ -189,12 +189,14 @@ class Builder {
    * @param string|null $defaultExtras
    * @param int $exclude
    * @param null|string|array $displayCondition
+   * @return $this
    */
   public function addColumn($name, $label, $config, $searchable = true, $defaultExtras = null,
                             $exclude = 1, $displayCondition = null) {
     $array = [
         'label' => $label,
         'config' => $config,
+        'exclude' => $exclude,
     ];
 
     $this->showRecordFieldList[] = $name;
@@ -206,28 +208,10 @@ class Builder {
     if (!is_null($defaultExtras) && is_string($defaultExtras))
       $array['defaultExtras'] = $defaultExtras;
 
-    $array['exclude'] = $exclude;
-
     if (!is_null($displayCondition) && (is_string($displayCondition) || is_array($displayCondition)))
       $array['displayCond'] = $displayCondition;
 
     $this->columns[$name] = $array;
-  }
-
-  /**
-   * @param string $name
-   * @param string $label
-   * @param string $eval
-   * @param string $placeholder
-   * @param bool $searchable
-   * @param int $exclude
-   * @param null|string|array $displayCondition
-   * @return $this
-   */
-  public function addInput($name, $label, $eval = '', $placeholder = '',
-                           $searchable = true, $exclude = 1, $displayCondition = null) {
-    $this->buildInput($name, $label, $eval, '', 255, $placeholder,
-                      [], $searchable, null, $exclude, $displayCondition);
 
     return $this;
   }
@@ -237,95 +221,45 @@ class Builder {
    * @param string $label
    * @param string $eval
    * @param string $placeholder
-   * @param bool $searchable
-   * @param int $exclude
    * @param null|string|array $displayCondition
    * @return $this
    */
-  public function addText($name, $label, $eval = '', $placeholder = '',
-                          $searchable = true, $exclude = 1, $displayCondition = null) {
-    $this->buildText($name, $label, $eval, '', $placeholder, 30, 5,
-                     $searchable, null, $exclude, $displayCondition);
+  public function addInput($name, $label, $eval = '', $placeholder = '', $displayCondition = null) {
+    $this->addColumn($name, $label, [
+        'type' => 'input',
+        'size' => 30,
+        'eval' => $eval,
+        'format' => '',
+        'max' => 255,
+        'placeholder' => $placeholder,
+        'range' => [],
+    ], true, null, 1, $displayCondition);
+
+    return $this;
+  }
+
+  /**
+   * @param string $name
+   * @param string $label
+   * @param string $eval
+   * @param string $placeholder
+   * @param null|string|array $displayCondition
+   * @return $this
+   */
+  public function addText($name, $label, $eval = '', $placeholder = '', $displayCondition = null) {
+    $this->addColumn($name, $label, [
+        'type' => 'text',
+        'eval' => $eval,
+        'format' => '',
+        'placeholder' => $placeholder,
+        'cols' => 30,
+        'rows' => 5,
+    ], true, null, 1, $displayCondition);
 
     return $this;
   }
 
   public function build() {
-    if ($this->explicitLocalization)
-      $this->showItem[] = 'sys_language_uid';
-
-    $GLOBALS['TCA'][$this->tableName] = [
-        'ctrl' => $this->buildCtrl(),
-        'columns' => $this->columns,
-        'interface' => [
-            'showRecordFieldList' => implode(',', $this->showRecordFieldList),
-        ],
-        'types' => [
-            '1' => [
-                'showitem' => implode(',', $this->showItem),
-            ],
-        ],
-        'palettes' => [
-            '1' => ['showitem' => ''],
-        ],
-    ];
-  }
-
-  /**
-   * @param string $name
-   * @param string $label
-   * @param string $eval
-   * @param string $format
-   * @param int $max
-   * @param string $placeholder
-   * @param array $range
-   * @param bool $searchable
-   * @param string|null $defaultExtras
-   * @param int $exclude
-   * @param null|string|array $displayCondition
-   */
-  private function buildInput($name, $label, $eval = '', $format = '', $max = 255, $placeholder = '', $range = [],
-                              $searchable = true, $defaultExtras = null, $exclude = 1, $displayCondition = null) {
-    $this->addColumn($name, $label, [
-        'type' => 'input',
-        'size' => 30,
-        'eval' => $eval,
-        'format' => $format,
-        'max' => $max,
-        'placeholder' => $placeholder,
-        'range' => $range,
-    ], $searchable, $defaultExtras, $exclude, $displayCondition);
-  }
-
-  /**
-   * @param string $name
-   * @param string $label
-   * @param string $eval
-   * @param string $format
-   * @param string $placeholder
-   * @param int $cols
-   * @param int $rows
-   * @param bool $searchable
-   * @param string|null $defaultExtras
-   * @param int $exclude
-   * @param null|string|array $displayCondition
-   */
-  private function buildText($name, $label, $eval = '', $format = '', $placeholder = '', $cols = 30, $rows = 5,
-                             $searchable = true, $defaultExtras = null, $exclude = 1, $displayCondition = null) {
-    $this->addColumn($name, $label, [
-        'type' => 'text',
-        'eval' => $eval,
-        'format' => $format,
-        'placeholder' => $placeholder,
-        'cols' => $cols,
-        'rows' => $rows,
-    ], $searchable, $defaultExtras, $exclude, $displayCondition);
-  }
-
-  /**
-   * @return array
-   */
-  private function buildCtrl() {
     $ctrl = [
         'title' => $this->title,
         'label' => $this->label,
@@ -350,8 +284,23 @@ class Builder {
       $ctrl['languageField'] = 'sys_language_uid';
       $ctrl['transOrigPointerField'] = 'l18n_parent';
       $ctrl['transOrigDiffSourceField'] = 'l18n_diffsource';
+      $this->showItem[] = 'sys_language_uid';
     }
 
-    return $ctrl;
+    $GLOBALS['TCA'][$this->tableName] = [
+        'ctrl' => $ctrl,
+        'columns' => $this->columns,
+        'interface' => [
+            'showRecordFieldList' => implode(',', $this->showRecordFieldList),
+        ],
+        'types' => [
+            '1' => [
+                'showitem' => implode(',', $this->showItem),
+            ],
+        ],
+        'palettes' => [
+            '1' => ['showitem' => ''],
+        ],
+    ];
   }
 }
