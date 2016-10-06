@@ -10,5 +10,5 @@ $TCA['tt_content']['palettes']['content_access'] = [
     'isHiddenPalette' => false,
 ];
 
-//$TCA['sys_file_reference']['palettes']['imageoverlayPalette']['showitem'] = 'title,alternative;;;;3-3-3';
-//$TCA['sys_file_reference']['palettes']['imageoverlayPalette']['showitem'] = ';;;;3-3-3';
+// Only display fields 'title' and 'alternative' for uploaded images
+$TCA['sys_file_reference']['palettes']['imageoverlayPalette']['showitem'] = 'title,alternative';

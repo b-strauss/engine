@@ -1,6 +1,8 @@
 <?php
-
 namespace BStrauss\Engine\Tca;
+
+use TYPO3\CMS\Core\Resource\File;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 /**
  * https://docs.typo3.org/typo3cms/TCAReference/Reference/Index.html
@@ -255,6 +257,39 @@ class Builder {
         'cols' => 30,
         'rows' => 5,
     ], true, null, 1, $displayCondition);
+
+    return $this;
+  }
+
+  /**
+   * @param string $name
+   * @param string $label
+   * @param int $maxItems
+   * @param string $fileTypes
+   * @param null|string|array $displayCondition
+   * @return $this
+   */
+  public function addImage($name, $label, $maxItems = 1, $fileTypes = 'png',
+                           $displayCondition = null) {
+    $this->addColumn($name, $label, ExtensionManagementUtility::getFileFieldTCAConfig(
+        $this->tableName . '_' . $name,
+        [
+            'maxitems' => $maxItems,
+            'foreign_types' => [
+                File::FILETYPE_IMAGE => [
+                    'showitem' => '--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,--palette--;;filePalette',
+                ],
+            ],
+            'appearance' => [
+                'fileUploadAllowed' => false,
+                'enabledControls' => [
+                    'new' => true,
+                    'sort' => true,
+                ],
+            ],
+        ],
+        $fileTypes
+    ), true, null, 1, $displayCondition);
 
     return $this;
   }
