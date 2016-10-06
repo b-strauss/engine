@@ -272,7 +272,7 @@ class Builder {
   public function addImage($name, $label, $maxItems = 1, $fileTypes = 'png',
                            $displayCondition = null) {
     $this->addColumn($name, $label, ExtensionManagementUtility::getFileFieldTCAConfig(
-        $this->tableName . '_' . $name,
+        $this->tableName . '.' . $name,
         [
             'maxitems' => $maxItems,
             'foreign_types' => [
