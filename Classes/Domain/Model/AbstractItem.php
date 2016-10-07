@@ -6,19 +6,19 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 class AbstractItem extends AbstractEntity {
   /**
-   * @var int
+   * @var boolean
    */
   protected $hidden;
 
   /**
-   * @return int
+   * @return boolean
    */
   public function getHidden() {
     return $this->hidden;
   }
 
   /**
-   * @param int $hidden
+   * @param boolean $hidden
    */
   public function setHidden($hidden) {
     $this->hidden = $hidden;
