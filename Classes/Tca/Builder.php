@@ -264,6 +264,20 @@ class Builder {
   /**
    * @param string $name
    * @param string $label
+   * @param null|string|array $displayCondition
+   * @return $this
+   */
+  public function addCheckbox($name, $label, $displayCondition = null) {
+    $this->addColumn($name, $label, [
+        'type' => 'check',
+    ], true, null, 1, $displayCondition);
+
+    return $this;
+  }
+
+  /**
+   * @param string $name
+   * @param string $label
    * @param int $maxItems
    * @param string $fileTypes
    * @param null|string|array $displayCondition
