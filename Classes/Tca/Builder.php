@@ -193,8 +193,8 @@ class Builder {
    * @param null|string|array $displayCondition
    * @return $this
    */
-  public function addColumn($name, $label, $config, $searchable = true, $defaultExtras = null,
-                            $exclude = 1, $displayCondition = null) {
+  public function addColumn($name, $label, $config, $searchable = true, $defaultExtras = null, $exclude = 1,
+                            $displayCondition = null) {
     $array = [
         'label' => $label,
         'config' => $config,
@@ -278,13 +278,28 @@ class Builder {
   /**
    * @param string $name
    * @param string $label
+   * @param array $items
+   * @param null|string|array $displayCondition
+   * @return $this
+   */
+  public function addRadioButtons($name, $label, $items, $displayCondition = null) {
+    $this->addColumn($name, $label, [
+        'type' => 'radio',
+        'items' => $items,
+    ], true, null, 1, $displayCondition);
+
+    return $this;
+  }
+
+  /**
+   * @param string $name
+   * @param string $label
    * @param int $maxItems
    * @param string $fileTypes
    * @param null|string|array $displayCondition
    * @return $this
    */
-  public function addImage($name, $label, $maxItems = 1, $fileTypes = 'png',
-                           $displayCondition = null) {
+  public function addImage($name, $label, $maxItems = 1, $fileTypes = 'png', $displayCondition = null) {
     $this->addColumn($name, $label, ExtensionManagementUtility::getFileFieldTCAConfig(
         $this->tableName . '.' . $name,
         [
