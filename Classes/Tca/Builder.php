@@ -294,6 +294,22 @@ class Builder {
   /**
    * @param string $name
    * @param string $label
+   * @param array $items
+   * @param null|string|array $displayCondition
+   * @return $this
+   */
+  public function addSelect($name, $label, $items, $displayCondition = null) {
+    $this->addColumn($name, $label, [
+        'type' => 'select',
+        'items' => $items,
+    ], true, null, 1, $displayCondition);
+
+    return $this;
+  }
+
+  /**
+   * @param string $name
+   * @param string $label
    * @param int $maxItems
    * @param string $fileTypes
    * @param null|string|array $displayCondition
