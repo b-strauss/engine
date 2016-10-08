@@ -307,6 +307,15 @@ class Builder {
     return $this;
   }
 
+  public function addMultiSelect() {
+  }
+
+  public function addTcaSelect() {
+  }
+
+  public function addRecordSelect() {
+  }
+
   /**
    * @param string $name
    * @param string $label
