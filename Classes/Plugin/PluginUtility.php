@@ -75,17 +75,25 @@ class PluginUtility {
   }
 
   /**
-   * @param bool $includeFlexform
+   * @param bool|string $flexform
    * @param array $additionalConfig
    * @param string $group
    * @param string $nameOfGroup
    */
-  public function addBackendConfiguration($includeFlexform = false, $additionalConfig = [],
+  public function addBackendConfiguration($flexform = false, $additionalConfig = [],
                                           $group = 'common', $nameOfGroup = null) {
-    if ($includeFlexform)
+    $shouldIncludeFlexform = false;
+
+    if (is_bool($flexform) && $flexform === true) {
       $this->addFlexform();
+      $shouldIncludeFlexform = true;
+    } else if (is_string($flexform)) {
+      $this->addFlexform($flexform);
+      $shouldIncludeFlexform = true;
+    }
+
     $this->addNewContentElement($group, $nameOfGroup);
-    $this->addTtContentConfiguration($includeFlexform, $additionalConfig);
+    $this->addTtContentConfiguration($shouldIncludeFlexform, $additionalConfig);
   }
 
   /**
@@ -115,8 +123,9 @@ class PluginUtility {
   /**
    * The name of the xml file must be same as the plugin identifier
    * and the file is intended to be located in 'Resources/Private/Flexform' directory
+   * @param string|null $flexformString
    */
-  private function addFlexform() {
+  private function addFlexform($flexformString = null) {
     $piKeyToMatch = '';
 
     if ($this->pluginType == 'list') {
@@ -133,9 +142,14 @@ class PluginUtility {
       );
     }
 
+    $flexformValue = 'FILE:EXT:' . $this->extensionKey . '/Configuration/Flexforms/' . $this->pluginId . '.xml';
+
+    if (!is_null($flexformString) && is_string($flexformString))
+      $flexformValue = $flexformString;
+
     ExtensionManagementUtility::addPiFlexFormValue(
         $piKeyToMatch,
-        'FILE:EXT:' . $this->extensionKey . '/Configuration/Flexforms/' . $this->pluginId . '.xml',
+        $flexformValue,
         $cTypeToMatch
     );
   }
