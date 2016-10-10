@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff version="1.0">
-  <file source-language="en" datatype="plaintext">
+  <file source-language="en" target-language="de" datatype="plaintext">
     <header/>
     <body>
       <trans-unit id="backend_tab.plugin_configuration" xml:space="preserve">
         <source>Plugin Configuration</source>
+        <target>Plugin Konfiguration</target>
       </trans-unit>
       <trans-unit id="backend_tab.content_access" xml:space="preserve">
         <source>Access restriction</source>
+        <target>Zugangsbeschränkung</target>
       </trans-unit>
       <trans-unit id="backend_tab.general" xml:space="preserve">
         <source>General</source>
+        <target>Allgemein</target>
       </trans-unit>
     </body>
   </file>

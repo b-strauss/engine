@@ -286,13 +286,13 @@ class PluginUtility {
    * @return string
    */
   static function buildBackendTabs($includeFlexform = false) {
-    $contentAccess = LocalizationUtility::translateBackend('backend_tab.content_access', 'engine');
-    $general = LocalizationUtility::translateBackend('backend_tab.general', 'engine');
+    $contentAccess = 'LLL:EXT:engine/Resources/Private/Language/locallang_be.xlf:backend_tab.content_access';
+    $general = 'LLL:EXT:engine/Resources/Private/Language/locallang_be.xlf:backend_tab.general';
 
     $configString = '';
 
     if ($includeFlexform) {
-      $pluginConfiguration = LocalizationUtility::translateBackend('backend_tab.plugin_configuration', 'engine');
+      $pluginConfiguration = 'LLL:EXT:engine/Resources/Private/Language/locallang_be.xlf:backend_tab.plugin_configuration';
 
       $configString .= "
         --div--;$pluginConfiguration,
