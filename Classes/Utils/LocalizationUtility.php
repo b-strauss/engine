@@ -51,15 +51,15 @@ class LocalizationUtility {
   /**
    * @return TypoScriptFrontendController
    */
-  static private function getTsfe() {
+  static function getTypoScriptFrontendController() {
     return $GLOBALS['TSFE'];
   }
 
   /**
    * @return array
    */
-  static private function getTypoScriptConfig() {
-    return LocalizationUtility::getTsfe()->config;
+  static function getTypoScriptConfig() {
+    return LocalizationUtility::getTypoScriptFrontendController()->config;
   }
 
   /**

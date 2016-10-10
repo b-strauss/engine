@@ -33,7 +33,7 @@ class AbstractActionController extends ActionController {
   /**
    * @return TypoScriptFrontendController
    */
-  protected function getTsfe() {
+  protected function getTypoScriptFrontendController() {
     return $GLOBALS['TSFE'];
   }
 
@@ -41,7 +41,7 @@ class AbstractActionController extends ActionController {
    * @return string
    */
   protected function getBaseURL() {
-    return $this->getTsfe()->config['config']['baseURL'];
+    return $this->getTypoScriptFrontendController()->config['config']['baseURL'];
   }
 
   /**
