@@ -4,6 +4,7 @@ namespace BStrauss\Engine\Utils;
 
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility as Typo3LocalizationUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
+use TYPO3\CMS\Lang\LanguageService;
 
 class LocalizationUtility {
   /**
@@ -33,8 +34,12 @@ class LocalizationUtility {
    * @return string
    */
   static function translateBackend($key, $extensionName, array $arguments = null, $htmlEscape = false) {
+    $language = LocalizationUtility::getBackendLanguage();
+    $prefix = $language === 'default' ? '' : "$language.";
+    $path = "LLL:EXT:$extensionName/Resources/Private/Language/{$prefix}locallang_be.xlf:$key";
+
     $value = Typo3LocalizationUtility::translate(
-        "LLL:EXT:$extensionName/Resources/Private/Language/locallang_be.xlf:$key",
+        $path,
         null,
         $arguments
     );
@@ -53,6 +58,20 @@ class LocalizationUtility {
    */
   static function getTypoScriptFrontendController() {
     return $GLOBALS['TSFE'];
+  }
+
+  /**
+   * @return LanguageService
+   */
+  static function getLanguageService() {
+    return $GLOBALS['LANG'];
+  }
+
+  /**
+   * @return string
+   */
+  static function getBackendLanguage() {
+    return LocalizationUtility::getLanguageService()->lang;
   }
 
   /**
