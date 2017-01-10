@@ -4,7 +4,6 @@ namespace BStrauss\Engine\Controllers;
 
 use BStrauss\Engine\Utils\LocalizationUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 class AbstractActionController extends ActionController {
   /**
@@ -31,7 +30,7 @@ class AbstractActionController extends ActionController {
   }
 
   /**
-   * @return TypoScriptFrontendController
+   * @return \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController
    */
   protected function getTypoScriptFrontendController() {
     return $GLOBALS['TSFE'];
