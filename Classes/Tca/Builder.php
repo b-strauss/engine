@@ -301,6 +301,7 @@ class Builder {
   public function addSelect($name, $label, $items, $displayCondition = null) {
     $this->addColumn($name, $label, [
         'type' => 'select',
+        'renderType' => 'selectSingle',
         'items' => $items,
     ], true, null, 1, $displayCondition);
 
@@ -356,7 +357,7 @@ class Builder {
         'label_alt_force' => $this->labelAltForce,
         'iconfile' => 'EXT:engine/Resources/Public/Icons/tca_model_element.svg',
         'searchFields' => implode(',', $this->searchFields),
-        // default fields
+      // default fields
         'sortby' => 'sorting',
         'tstamp' => 'modified_at',
         'crdate' => 'created_at',
