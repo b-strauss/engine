@@ -35,7 +35,12 @@ class RenderViewHelper extends AbstractRenderViewHelper implements ChildNodeAcce
    */
   public function render() {
     $path = GeneralUtility::getFileAbsFileName($this->arguments['path']);
-    $arguments = array_merge($this->arguments['arguments'], $this->renderSlots());
+    $renderedSlots = $this->renderSlots();
+
+    if (count($renderedSlots) === 0)
+      $renderedSlots['slot-default'] = $this->renderChildren();
+
+    $arguments = array_merge($this->arguments['arguments'], $renderedSlots);
 
     $view = $this->getPreparedView();
     $view->setTemplatePathAndFilename($path);
