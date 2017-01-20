@@ -193,7 +193,7 @@ class Builder {
    * @param null|string|array $displayCondition
    * @return $this
    */
-  public function addColumn($name, $label, $config, $searchable = true, $defaultExtras = null, $exclude = 1,
+  public function addColumn($name, $label, $config, $searchable = true, $defaultExtras = null, $exclude = 0,
                             $displayCondition = null) {
     $array = [
         'label' => $label,
@@ -223,10 +223,11 @@ class Builder {
    * @param string $label
    * @param string $eval
    * @param string $placeholder
+   * @param int $exclude
    * @param null|string|array $displayCondition
    * @return $this
    */
-  public function addInput($name, $label, $eval = '', $placeholder = '', $displayCondition = null) {
+  public function addInput($name, $label, $eval = '', $placeholder = '', $exclude = 0, $displayCondition = null) {
     $this->addColumn($name, $label, [
         'type' => 'input',
         'size' => 30,
@@ -235,7 +236,7 @@ class Builder {
         'max' => 255,
         'placeholder' => $placeholder,
         'range' => [],
-    ], true, null, 1, $displayCondition);
+    ], true, null, $exclude, $displayCondition);
 
     return $this;
   }
@@ -245,10 +246,11 @@ class Builder {
    * @param string $label
    * @param string $eval
    * @param string $placeholder
+   * @param int $exclude
    * @param null|string|array $displayCondition
    * @return $this
    */
-  public function addText($name, $label, $eval = '', $placeholder = '', $displayCondition = null) {
+  public function addText($name, $label, $eval = '', $placeholder = '', $exclude = 0, $displayCondition = null) {
     $this->addColumn($name, $label, [
         'type' => 'text',
         'eval' => $eval,
@@ -256,7 +258,7 @@ class Builder {
         'placeholder' => $placeholder,
         'cols' => 30,
         'rows' => 5,
-    ], true, null, 1, $displayCondition);
+    ], true, null, $exclude, $displayCondition);
 
     return $this;
   }
@@ -264,13 +266,14 @@ class Builder {
   /**
    * @param string $name
    * @param string $label
+   * @param int $exclude
    * @param null|string|array $displayCondition
    * @return $this
    */
-  public function addCheckbox($name, $label, $displayCondition = null) {
+  public function addCheckbox($name, $label, $exclude = 0, $displayCondition = null) {
     $this->addColumn($name, $label, [
         'type' => 'check',
-    ], true, null, 1, $displayCondition);
+    ], true, null, $exclude, $displayCondition);
 
     return $this;
   }
@@ -279,14 +282,15 @@ class Builder {
    * @param string $name
    * @param string $label
    * @param array $items
+   * @param int $exclude
    * @param null|string|array $displayCondition
    * @return $this
    */
-  public function addRadioButtons($name, $label, $items, $displayCondition = null) {
+  public function addRadioButtons($name, $label, $items, $exclude = 0, $displayCondition = null) {
     $this->addColumn($name, $label, [
         'type' => 'radio',
         'items' => $items,
-    ], true, null, 1, $displayCondition);
+    ], true, null, $exclude, $displayCondition);
 
     return $this;
   }
@@ -295,15 +299,16 @@ class Builder {
    * @param string $name
    * @param string $label
    * @param array $items
+   * @param int $exclude
    * @param null|string|array $displayCondition
    * @return $this
    */
-  public function addSelect($name, $label, $items, $displayCondition = null) {
+  public function addSelect($name, $label, $items, $exclude = 0, $displayCondition = null) {
     $this->addColumn($name, $label, [
         'type' => 'select',
         'renderType' => 'selectSingle',
         'items' => $items,
-    ], true, null, 1, $displayCondition);
+    ], true, null, $exclude, $displayCondition);
 
     return $this;
   }
@@ -322,10 +327,11 @@ class Builder {
    * @param string $label
    * @param int $maxItems
    * @param string $fileTypes
+   * @param int $exclude
    * @param null|string|array $displayCondition
    * @return $this
    */
-  public function addImage($name, $label, $maxItems = 1, $fileTypes = 'png', $displayCondition = null) {
+  public function addImage($name, $label, $maxItems = 1, $fileTypes = 'png', $exclude = 0, $displayCondition = null) {
     $this->addColumn($name, $label, ExtensionManagementUtility::getFileFieldTCAConfig(
         $this->tableName . '.' . $name,
         [
@@ -344,7 +350,7 @@ class Builder {
             ],
         ],
         $fileTypes
-    ), true, null, 1, $displayCondition);
+    ), true, null, $exclude, $displayCondition);
 
     return $this;
   }
