@@ -61,8 +61,8 @@ class PluginUtility {
     $extensionName = GeneralUtility::underscoredToUpperCamelCase($this->extensionKey);
 
     $this->pluginSignature = GeneralUtility::strtolower($extensionName) .
-                             '_' .
-                             GeneralUtility::strtolower($this->pluginId);
+        '_' .
+        GeneralUtility::strtolower($this->pluginId);
 
     $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist'][$this->pluginSignature]
         = 'layout,recursive,select_key,pages';
@@ -123,6 +123,7 @@ class PluginUtility {
   /**
    * The name of the xml file must be same as the plugin identifier
    * and the file is intended to be located in 'Resources/Private/Flexform' directory
+   *
    * @param string|null $flexformString
    */
   private function addFlexform($flexformString = null) {
