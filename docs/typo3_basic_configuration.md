@@ -11,7 +11,7 @@ options {
 
 ## activate extensions
 
-- css styled content
+- Fluid Styled Content
 - realurl
 - vhs
 - engine
@@ -37,7 +37,7 @@ Template -> create template for new site (save and go to Info/Modify) -> edit th
   - [x] Rootlevel
 - Includes
   - Include static (from extensions):
-    - CSS Styled Content
+    - Content Elements (fluid_styled_content)
 
 ### add backend layout to rootpage
 Root page -> list view -> create new record -> Backend Layout
