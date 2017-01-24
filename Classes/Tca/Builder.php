@@ -212,16 +212,16 @@ class Builder {
    * @param array $config
    * @param bool $searchable
    * @param string|null $defaultExtras
-   * @param int $exclude
+   * @param bool $exclude
    * @param null|string|array $displayCondition
    * @return $this
    */
-  public function addColumn($name, $label, $config, $searchable = true, $defaultExtras = null, $exclude = 0,
-      $displayCondition = null) {
+  public function addColumn($name, $label, $config,
+      $searchable = false, $defaultExtras = null, $exclude = false, $displayCondition = null) {
     $array = [
         'label' => $label,
         'config' => $config,
-        'exclude' => $exclude,
+        'exclude' => $exclude ? 1 : 0,
     ];
 
     $this->showRecordFieldList[] = $name;
@@ -246,11 +246,14 @@ class Builder {
    * @param string $label
    * @param string $eval
    * @param string $placeholder
-   * @param int $exclude
+   * @param bool $searchable
+   * @param null $defaultExtras
+   * @param bool $exclude
    * @param null|string|array $displayCondition
    * @return $this
    */
-  public function addInput($name, $label, $eval = '', $placeholder = '', $exclude = 0, $displayCondition = null) {
+  public function addInput($name, $label, $eval = '', $placeholder = '',
+      $searchable = false, $defaultExtras = null, $exclude = false, $displayCondition = null) {
     $this->addColumn($name, $label, [
         'type' => 'input',
         'size' => 30,
@@ -259,7 +262,7 @@ class Builder {
         'max' => 255,
         'placeholder' => $placeholder,
         'range' => [],
-    ], true, null, $exclude, $displayCondition);
+    ], $searchable, $defaultExtras, $exclude, $displayCondition);
 
     return $this;
   }
@@ -269,11 +272,14 @@ class Builder {
    * @param string $label
    * @param string $eval
    * @param string $placeholder
-   * @param int $exclude
+   * @param bool $searchable
+   * @param null $defaultExtras
+   * @param bool $exclude
    * @param null|string|array $displayCondition
    * @return $this
    */
-  public function addText($name, $label, $eval = '', $placeholder = '', $exclude = 0, $displayCondition = null) {
+  public function addText($name, $label, $eval = '', $placeholder = '',
+      $searchable = false, $defaultExtras = null, $exclude = false, $displayCondition = null) {
     $this->addColumn($name, $label, [
         'type' => 'text',
         'eval' => $eval,
@@ -281,7 +287,7 @@ class Builder {
         'placeholder' => $placeholder,
         'cols' => 30,
         'rows' => 5,
-    ], true, null, $exclude, $displayCondition);
+    ], $searchable, $defaultExtras, $exclude, $displayCondition);
 
     return $this;
   }
@@ -289,14 +295,17 @@ class Builder {
   /**
    * @param string $name
    * @param string $label
-   * @param int $exclude
+   * @param bool $searchable
+   * @param null $defaultExtras
+   * @param bool $exclude
    * @param null|string|array $displayCondition
    * @return $this
    */
-  public function addCheckbox($name, $label, $exclude = 0, $displayCondition = null) {
+  public function addCheckbox($name, $label,
+      $searchable = false, $defaultExtras = null, $exclude = false, $displayCondition = null) {
     $this->addColumn($name, $label, [
         'type' => 'check',
-    ], true, null, $exclude, $displayCondition);
+    ], $searchable, $defaultExtras, $exclude, $displayCondition);
 
     return $this;
   }
@@ -305,15 +314,18 @@ class Builder {
    * @param string $name
    * @param string $label
    * @param array $items
-   * @param int $exclude
+   * @param bool $searchable
+   * @param null $defaultExtras
+   * @param bool $exclude
    * @param null|string|array $displayCondition
    * @return $this
    */
-  public function addRadioButtons($name, $label, $items, $exclude = 0, $displayCondition = null) {
+  public function addRadioButtons($name, $label, $items,
+      $searchable = false, $defaultExtras = null, $exclude = false, $displayCondition = null) {
     $this->addColumn($name, $label, [
         'type' => 'radio',
         'items' => $items,
-    ], true, null, $exclude, $displayCondition);
+    ], $searchable, $defaultExtras, $exclude, $displayCondition);
 
     return $this;
   }
@@ -322,16 +334,19 @@ class Builder {
    * @param string $name
    * @param string $label
    * @param array $items
-   * @param int $exclude
+   * @param bool $searchable
+   * @param null $defaultExtras
+   * @param bool $exclude
    * @param null|string|array $displayCondition
    * @return $this
    */
-  public function addSelect($name, $label, $items, $exclude = 0, $displayCondition = null) {
+  public function addSelect($name, $label, $items,
+      $searchable = false, $defaultExtras = null, $exclude = false, $displayCondition = null) {
     $this->addColumn($name, $label, [
         'type' => 'select',
         'renderType' => 'selectSingle',
         'items' => $items,
-    ], true, null, $exclude, $displayCondition);
+    ], $searchable, $defaultExtras, $exclude, $displayCondition);
 
     return $this;
   }
@@ -350,11 +365,14 @@ class Builder {
    * @param string $label
    * @param int $maxItems
    * @param string $fileTypes
-   * @param int $exclude
+   * @param bool $searchable
+   * @param null $defaultExtras
+   * @param bool $exclude
    * @param null|string|array $displayCondition
    * @return $this
    */
-  public function addImage($name, $label, $maxItems = 1, $fileTypes = 'png', $exclude = 0, $displayCondition = null) {
+  public function addImage($name, $label, $maxItems = 1, $fileTypes = 'png',
+      $searchable = false, $defaultExtras = null, $exclude = false, $displayCondition = null) {
     $this->addColumn($name, $label, ExtensionManagementUtility::getFileFieldTCAConfig(
         $this->tableName . '.' . $name,
         [
@@ -373,7 +391,7 @@ class Builder {
             ],
         ],
         $fileTypes
-    ), true, null, $exclude, $displayCondition);
+    ), $searchable, $defaultExtras, $exclude, $displayCondition);
 
     return $this;
   }
