@@ -396,6 +396,9 @@ class Builder {
     return $this;
   }
 
+  /**
+   * @return array
+   */
   public function build() {
     $enablecolumns = [];
 
@@ -430,7 +433,7 @@ class Builder {
       $this->showItem[] = 'sys_language_uid';
     }
 
-    $GLOBALS['TCA'][$this->tableName] = [
+    return [
         'ctrl' => $ctrl,
         'columns' => $this->columns,
         'interface' => [
