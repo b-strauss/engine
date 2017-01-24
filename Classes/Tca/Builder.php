@@ -5,6 +5,7 @@ use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 /**
+ * https://docs.typo3.org/typo3cms/TCAReference/WhatIsTca/Index.html
  * https://docs.typo3.org/typo3cms/TCAReference/Reference/Index.html
  *
  * Default fields:
@@ -13,11 +14,13 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
  * - created_by
  * - modified_at
  * - deleted
- * - hidden
  * - starttime
  * - endtime
  * - sorting
  * - tt_content
+ *
+ * Optional fields:
+ * - hidden
  */
 class Builder {
   /**
@@ -34,6 +37,11 @@ class Builder {
    * @var string
    */
   private $label;
+
+  /**
+   * @var bool
+   */
+  private $hideable;
 
   /**
    * @var bool
@@ -74,6 +82,7 @@ class Builder {
    * @param string $tableName
    * @param string $title
    * @param string $label
+   * @param bool $hideable
    * @param bool $explicitLocalization
    * @param string $labelAlt
    * @param bool $labelAltForce
@@ -82,6 +91,7 @@ class Builder {
       $tableName,
       $title,
       $label,
+      $hideable = false,
       $explicitLocalization = false,
       $labelAlt = '',
       $labelAltForce = false
@@ -89,19 +99,22 @@ class Builder {
     $this->tableName = $tableName;
     $this->title = $title;
     $this->label = $label;
+    $this->hideable = $hideable;
     $this->explicitLocalization = $explicitLocalization;
     $this->labelAlt = $labelAlt;
     $this->labelAltForce = $labelAltForce;
 
-    $this->showRecordFieldList[] = 'hidden';
+    if ($this->hideable) {
+      $this->showRecordFieldList[] = 'hidden';
 
-    $this->columns['hidden'] = [
-        'exclude' => 1,
-        'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.hidden',
-        'config' => [
-            'type' => 'check',
-        ],
-    ];
+      $this->columns['hidden'] = [
+          'exclude' => 1,
+          'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.hidden',
+          'config' => [
+              'type' => 'check',
+          ],
+      ];
+    }
 
     $this->columns['starttime'] = [
         'exclude' => 1,
@@ -194,7 +207,7 @@ class Builder {
    * @return $this
    */
   public function addColumn($name, $label, $config, $searchable = true, $defaultExtras = null, $exclude = 0,
-                            $displayCondition = null) {
+      $displayCondition = null) {
     $array = [
         'label' => $label,
         'config' => $config,
@@ -356,6 +369,14 @@ class Builder {
   }
 
   public function build() {
+    $enablecolumns = [
+        'starttime' => 'starttime',
+        'endtime' => 'endtime',
+    ];
+
+    if ($this->hideable)
+      $enablecolumns['disabled'] = 'hidden';
+
     $ctrl = [
         'title' => $this->title,
         'label' => $this->label,
@@ -369,11 +390,7 @@ class Builder {
         'crdate' => 'created_at',
         'cruser_id' => 'created_by',
         'delete' => 'deleted',
-        'enablecolumns' => [
-            'disabled' => 'hidden',
-            'starttime' => 'starttime',
-            'endtime' => 'endtime',
-        ],
+        'enablecolumns' => $enablecolumns,
     ];
 
     if ($this->explicitLocalization) {
