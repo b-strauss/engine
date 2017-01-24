@@ -14,13 +14,13 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
  * - created_by
  * - modified_at
  * - deleted
- * - starttime
- * - endtime
  * - sorting
  * - tt_content
  *
  * Optional fields:
  * - hidden
+ * - starttime
+ * - endtime
  */
 class Builder {
   /**
@@ -42,6 +42,11 @@ class Builder {
    * @var bool
    */
   private $hideable;
+
+  /**
+   * @var bool
+   */
+  private $timeable;
 
   /**
    * @var bool
@@ -83,6 +88,7 @@ class Builder {
    * @param string $title
    * @param string $label
    * @param bool $hideable
+   * @param bool $timeable
    * @param bool $explicitLocalization
    * @param string $labelAlt
    * @param bool $labelAltForce
@@ -92,6 +98,7 @@ class Builder {
       $title,
       $label,
       $hideable = false,
+      $timeable = false,
       $explicitLocalization = false,
       $labelAlt = '',
       $labelAltForce = false
@@ -100,6 +107,7 @@ class Builder {
     $this->title = $title;
     $this->label = $label;
     $this->hideable = $hideable;
+    $this->timeable = $timeable;
     $this->explicitLocalization = $explicitLocalization;
     $this->labelAlt = $labelAlt;
     $this->labelAltForce = $labelAltForce;
@@ -116,39 +124,41 @@ class Builder {
       ];
     }
 
-    $this->columns['starttime'] = [
-        'exclude' => 1,
-        'l10n_mode' => 'mergeIfNotBlank',
-        'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.starttime',
-        'config' => [
-            'type' => 'input',
-            'size' => 13,
-            'max' => 20,
-            'eval' => 'datetime',
-            'checkbox' => 0,
-            'default' => 0,
-            'range' => [
-                'lower' => mktime(0, 0, 0, date('m'), date('d'), date('Y')),
-            ],
-        ],
-    ];
+    if ($this->timeable) {
+      $this->columns['starttime'] = [
+          'exclude' => 1,
+          'l10n_mode' => 'mergeIfNotBlank',
+          'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.starttime',
+          'config' => [
+              'type' => 'input',
+              'size' => 13,
+              'max' => 20,
+              'eval' => 'datetime',
+              'checkbox' => 0,
+              'default' => 0,
+              'range' => [
+                  'lower' => mktime(0, 0, 0, date('m'), date('d'), date('Y')),
+              ],
+          ],
+      ];
 
-    $this->columns['endtime'] = [
-        'exclude' => 1,
-        'l10n_mode' => 'mergeIfNotBlank',
-        'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.endtime',
-        'config' => [
-            'type' => 'input',
-            'size' => 13,
-            'max' => 20,
-            'eval' => 'datetime',
-            'checkbox' => 0,
-            'default' => 0,
-            'range' => [
-                'lower' => mktime(0, 0, 0, date('m'), date('d'), date('Y')),
-            ],
-        ],
-    ];
+      $this->columns['endtime'] = [
+          'exclude' => 1,
+          'l10n_mode' => 'mergeIfNotBlank',
+          'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.endtime',
+          'config' => [
+              'type' => 'input',
+              'size' => 13,
+              'max' => 20,
+              'eval' => 'datetime',
+              'checkbox' => 0,
+              'default' => 0,
+              'range' => [
+                  'lower' => mktime(0, 0, 0, date('m'), date('d'), date('Y')),
+              ],
+          ],
+      ];
+    }
 
     $this->columns['tt_content'] = [
         'label' => 'tt_content',
@@ -369,13 +379,15 @@ class Builder {
   }
 
   public function build() {
-    $enablecolumns = [
-        'starttime' => 'starttime',
-        'endtime' => 'endtime',
-    ];
+    $enablecolumns = [];
 
     if ($this->hideable)
       $enablecolumns['disabled'] = 'hidden';
+
+    if ($this->timeable) {
+      $enablecolumns['starttime'] = 'starttime';
+      $enablecolumns['endtime'] = 'endtime';
+    }
 
     $ctrl = [
         'title' => $this->title,
