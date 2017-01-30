@@ -62,9 +62,9 @@ class PluginUtility {
 
     $extensionName = GeneralUtility::underscoredToUpperCamelCase($this->extensionKey);
 
-    $this->pluginSignature = GeneralUtility::strtolower($extensionName) .
+    $this->pluginSignature = mb_strtolower($extensionName) .
         '_' .
-        GeneralUtility::strtolower($this->pluginId);
+        mb_strtolower($this->pluginId);
 
     $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist'][$this->pluginSignature]
         = 'layout,recursive,select_key,pages';
