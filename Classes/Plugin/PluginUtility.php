@@ -3,6 +3,8 @@
 namespace BStrauss\Engine\Plugin;
 
 use BStrauss\Engine\Utils\LocalizationUtility;
+use TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider;
+use TYPO3\CMS\Core\Imaging\IconRegistry;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
@@ -188,6 +190,14 @@ class PluginUtility {
         "show := addToList($this->pluginSignature)" :
         '';
 
+    /** @var IconRegistry $iconRegistry */
+    $iconRegistry = GeneralUtility::makeInstance(IconRegistry::class);
+    $iconRegistry->registerIcon(
+        $this->pluginSignature,
+        SvgIconProvider::class,
+        ['source' => "EXT:$this->extensionKey/Resources/Public/Icons/$this->pluginId.svg"]
+    );
+
     ExtensionManagementUtility::addPageTSConfig("
       mod.wizards.newContentElement {
         renderMode = tabs
@@ -197,6 +207,7 @@ class PluginUtility {
             elements {
               $this->pluginSignature {
                 icon = ../typo3conf/ext/$this->extensionKey/ext_icon.png
+                iconIdentifier = $this->pluginSignature
                 title = $this->pluginTitle
                 description = $this->pluginDescription
                 tt_content_defValues {
