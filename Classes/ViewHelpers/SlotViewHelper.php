@@ -15,7 +15,8 @@ class SlotViewHelper extends AbstractViewHelper {
     $this->registerArgument('name', 'string', 'Name of the slot. The result name inside the partial will be prefixed with "slot-".', true);
   }
 
-  public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext) {
+  public static function renderStatic(array $arguments, \Closure $renderChildrenClosure,
+      RenderingContextInterface $renderingContext) {
     return $renderChildrenClosure();
   }
 }

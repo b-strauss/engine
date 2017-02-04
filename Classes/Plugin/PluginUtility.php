@@ -48,12 +48,8 @@ class PluginUtility {
    * @param string $pluginDescription
    * @param string $pluginType
    */
-  function __construct($vendorPrefix,
-                       $extensionKey,
-                       $pluginId,
-                       $pluginTitle,
-                       $pluginDescription,
-                       $pluginType = ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT) {
+  public function __construct($vendorPrefix, $extensionKey, $pluginId, $pluginTitle, $pluginDescription,
+      $pluginType = ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT) {
     $this->extensionKey = $extensionKey;
     $this->pluginId = $pluginId;
     $this->pluginTitle = $pluginTitle;
@@ -83,7 +79,7 @@ class PluginUtility {
    * @param string $nameOfGroup
    */
   public function addBackendConfiguration($flexform = false, $additionalConfig = [],
-                                          $group = 'common', $nameOfGroup = null) {
+      $group = 'common', $nameOfGroup = null) {
     $shouldIncludeFlexform = false;
 
     if (is_bool($flexform) && $flexform === true) {
@@ -262,11 +258,11 @@ class PluginUtility {
    * @param string $pluginType
    */
   static function configurePlugin($vendorPrefix,
-                                  $extensionKey,
-                                  $pluginId,
-                                  $controllerActions,
-                                  array $nonCacheableControllerActions = [],
-                                  $pluginType = ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT) {
+      $extensionKey,
+      $pluginId,
+      $controllerActions,
+      array $nonCacheableControllerActions = [],
+      $pluginType = ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT) {
     $extensionName = GeneralUtility::underscoredToUpperCamelCase($extensionKey);
 
     ExtensionUtility::configurePlugin(

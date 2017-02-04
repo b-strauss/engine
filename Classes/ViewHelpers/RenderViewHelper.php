@@ -106,7 +106,8 @@ class RenderViewHelper extends AbstractViewHelper implements ViewHelperInterface
    * @param RenderingContextInterface $renderingContext
    * @return string the resulting string which is directly shown
    */
-  public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext) {
+  public static function renderStatic(array $arguments, \Closure $renderChildrenClosure,
+      RenderingContextInterface $renderingContext) {
     $path = GeneralUtility::getFileAbsFileName($arguments['path']);
     $slots = $arguments['__slotClosures'];
 
@@ -130,7 +131,8 @@ class RenderViewHelper extends AbstractViewHelper implements ViewHelperInterface
    * @param TemplateCompiler $compiler
    * @return string
    */
-  public function compile($argumentsName, $closureName, &$initializationPhpCode, ViewHelperNode $node, TemplateCompiler $compiler) {
+  public function compile($argumentsName, $closureName, &$initializationPhpCode, ViewHelperNode $node,
+      TemplateCompiler $compiler) {
     $initializationPhpCode .= sprintf('%s[\'__slotClosures\'] = [];', $argumentsName) . chr(10);
 
     foreach ($node->getChildNodes() as $childNode) {
@@ -140,7 +142,8 @@ class RenderViewHelper extends AbstractViewHelper implements ViewHelperInterface
         $slotName = self::getSlotName($childNode);
 
         $childNodesAsClosure = $compiler->wrapChildNodesInClosure($childNode);
-        $initializationPhpCode .= sprintf('%s[\'__slotClosures\'][\'%s\'] = %s;', $argumentsName, $slotName, $childNodesAsClosure) . chr(10);
+        $initializationPhpCode .= sprintf('%s[\'__slotClosures\'][\'%s\'] = %s;', $argumentsName, $slotName,
+                $childNodesAsClosure) . chr(10);
       }
     }
 

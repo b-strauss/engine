@@ -93,16 +93,8 @@ class Builder {
    * @param string $labelAlt
    * @param bool $labelAltForce
    */
-  function __construct(
-      $tableName,
-      $title,
-      $label,
-      $hideable = false,
-      $timeable = false,
-      $explicitLocalization = false,
-      $labelAlt = '',
-      $labelAltForce = false
-  ) {
+  public function __construct($tableName, $title, $label, $hideable = false, $timeable = false, $explicitLocalization = false,
+      $labelAlt = '', $labelAltForce = false) {
     $this->tableName = $tableName;
     $this->title = $title;
     $this->label = $label;
