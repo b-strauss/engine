@@ -79,9 +79,9 @@ class Builder {
   private $showRecordFieldList = [];
 
   /**
-   * @var array
+   * @var string
    */
-  private $showItem = [];
+  private $showItem = '';
 
   /**
    * @param string $tableName
@@ -199,6 +199,16 @@ class Builder {
   }
 
   /**
+   * @param string $label
+   * @return $this
+   */
+  public function addTab($label) {
+    $this->showItem .= "--div--;$label,";
+
+    return $this;
+  }
+
+  /**
    * @param string $name
    * @param string $label
    * @param array $config
@@ -217,7 +227,7 @@ class Builder {
     ];
 
     $this->showRecordFieldList[] = $name;
-    $this->showItem[] = $name;
+    $this->showItem .= "$name,";
 
     if ($searchable)
       $this->searchFields[] = $name;
@@ -389,6 +399,16 @@ class Builder {
   }
 
   /**
+   * @return $this
+   */
+  public function addLanguageSelector() {
+    if ($this->explicitLocalization)
+      $this->showItem .= 'sys_language_uid,';
+
+    return $this;
+  }
+
+  /**
    * @return array
    */
   public function build() {
@@ -422,7 +442,6 @@ class Builder {
       $ctrl['languageField'] = 'sys_language_uid';
       $ctrl['transOrigPointerField'] = 'l18n_parent';
       $ctrl['transOrigDiffSourceField'] = 'l18n_diffsource';
-      $this->showItem[] = 'sys_language_uid';
     }
 
     return [
@@ -432,12 +451,9 @@ class Builder {
             'showRecordFieldList' => implode(',', $this->showRecordFieldList),
         ],
         'types' => [
-            '1' => [
-                'showitem' => implode(',', $this->showItem),
+            '0' => [
+                'showitem' => $this->showItem,
             ],
-        ],
-        'palettes' => [
-            '1' => ['showitem' => ''],
         ],
     ];
   }
