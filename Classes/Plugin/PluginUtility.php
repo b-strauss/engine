@@ -179,9 +179,8 @@ class PluginUtility {
 
     $header = '';
 
-    if (!$isDefaultGroup && !is_null($nameOfGroup)) {
+    if (!$isDefaultGroup && !is_null($nameOfGroup))
       $header = "header = $nameOfGroup";
-    }
 
     $groupExcludes = '';
 
@@ -194,9 +193,8 @@ class PluginUtility {
 
     $sorting = '';
 
-    if (!$isDefaultGroup) {
+    if (!$isDefaultGroup)
       $sorting = "before = common";
-    }
 
     /** @var IconRegistry $iconRegistry */
     $iconRegistry = GeneralUtility::makeInstance(IconRegistry::class);
