@@ -192,6 +192,12 @@ class PluginUtility {
       }
     }
 
+    $sorting = '';
+
+    if (!$isDefaultGroup) {
+      $sorting = "before = common";
+    }
+
     /** @var IconRegistry $iconRegistry */
     $iconRegistry = GeneralUtility::makeInstance(IconRegistry::class);
     $iconRegistry->registerIcon(
@@ -221,6 +227,7 @@ class PluginUtility {
               }
             }
             show := addToList($this->pluginSignature)
+            $sorting
           }
           $groupExcludes
         }
