@@ -193,7 +193,7 @@ class PluginUtility {
 
     $sorting = '';
 
-    if (!$isDefaultGroup)
+    if (!$isDefaultGroup && !$hideDefaultContent)
       $sorting = "before = common";
 
     /** @var IconRegistry $iconRegistry */
