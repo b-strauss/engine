@@ -202,7 +202,6 @@ class PluginUtility {
             $header
             elements {
               $this->pluginSignature {
-                icon = ../typo3conf/ext/$this->extensionKey/ext_icon.png
                 iconIdentifier = $this->pluginSignature
                 title = $this->pluginTitle
                 description = $this->pluginDescription
