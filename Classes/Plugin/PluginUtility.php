@@ -77,9 +77,10 @@ class PluginUtility {
    * @param array $additionalConfig
    * @param string $group
    * @param string $nameOfGroup
+   * @param bool $hideDefaultContent
    */
   public function addBackendConfiguration($flexform = false, $additionalConfig = [],
-      $group = 'common', $nameOfGroup = null) {
+      $group = 'common', $nameOfGroup = null, $hideDefaultContent = false) {
     $shouldIncludeFlexform = false;
 
     if (is_bool($flexform) && $flexform === true) {
@@ -90,7 +91,7 @@ class PluginUtility {
       $shouldIncludeFlexform = true;
     }
 
-    $this->addNewContentElement($group, $nameOfGroup);
+    $this->addNewContentElement($group, $nameOfGroup, $hideDefaultContent);
     $this->addTtContentConfiguration($shouldIncludeFlexform, $additionalConfig);
   }
 
@@ -161,30 +162,35 @@ class PluginUtility {
    * @param string $group the type of the group.
    *                      The four default groups are: "common", "special", "forms" and "plugins".
    * @param string $nameOfGroup the localized name of the group, if the group is not one of the default groups
+   * @param bool $hideDefaultContent hide all content elements except custom added ones
    */
-  private function addNewContentElement($group = 'common', $nameOfGroup = null) {
+  private function addNewContentElement($group = 'common', $nameOfGroup = null, $hideDefaultContent = false) {
     $cType = $this->pluginSignature;
     $listType = '';
 
-    if ($this->pluginType == 'list') {
+    if ($this->pluginType == ExtensionUtility::PLUGIN_TYPE_PLUGIN) {
       $cType = $this->pluginType;
       $listType = $this->pluginSignature;
     }
 
+    $defaultGroups = ['common', 'special', 'forms', 'plugins'];
+
+    $isDefaultGroup = in_array($group, $defaultGroups);
+
     $header = '';
 
-    if ($group != 'common'
-        && $group != 'special'
-        && $group != 'forms'
-        && $group != 'plugins'
-        && !is_null($nameOfGroup)
-    ) {
+    if (!$isDefaultGroup && !is_null($nameOfGroup)) {
       $header = "header = $nameOfGroup";
     }
 
-    $addToList = $group != 'plugins' ?
-        "show := addToList($this->pluginSignature)" :
-        '';
+    $groupExcludes = '';
+
+    if ($hideDefaultContent) {
+      foreach ($defaultGroups as $defaultGroup) {
+        if ($defaultGroup !== $group)
+          $groupExcludes .= "$defaultGroup <\n";
+      }
+    }
 
     /** @var IconRegistry $iconRegistry */
     $iconRegistry = GeneralUtility::makeInstance(IconRegistry::class);
@@ -193,6 +199,9 @@ class PluginUtility {
         SvgIconProvider::class,
         ['source' => "EXT:$this->extensionKey/Resources/Public/Icons/$this->pluginId.svg"]
     );
+
+    $cTypeKey = ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT;
+    $listTypeKey = ExtensionUtility::PLUGIN_TYPE_PLUGIN;
 
     ExtensionManagementUtility::addPageTSConfig("
       mod.wizards.newContentElement {
@@ -206,13 +215,14 @@ class PluginUtility {
                 title = $this->pluginTitle
                 description = $this->pluginDescription
                 tt_content_defValues {
-                  CType = $cType
-                  list_type = $listType
+                  $cTypeKey = $cType
+                  $listTypeKey = $listType
                 }
               }
             }
-            $addToList
+            show := addToList($this->pluginSignature)
           }
+          $groupExcludes
         }
       }
     ");
