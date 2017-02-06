@@ -168,7 +168,7 @@ class PluginUtility {
     $cType = $this->pluginSignature;
     $listType = '';
 
-    if ($this->pluginType == ExtensionUtility::PLUGIN_TYPE_PLUGIN) {
+    if ($this->pluginType == 'list') {
       $cType = $this->pluginType;
       $listType = $this->pluginSignature;
     }
