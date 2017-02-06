@@ -353,14 +353,30 @@ class Builder {
     return $this;
   }
 
-//  public function addMultiSelect() {
-//  }
-//
-//  public function addTcaSelect() {
-//  }
-//
-//  public function addRecordSelect() {
-//  }
+  /**
+   * @param string $name
+   * @param string $label
+   * @param array $items
+   * @param int $minitems
+   * @param int $maxitems
+   * @param bool $searchable
+   * @param null $defaultExtras
+   * @param bool $exclude
+   * @param null|string|array $displayCondition
+   * @return $this
+   */
+  public function addMultiSelect($name, $label, $items, $minitems = 0, $maxitems = 10000,
+      $searchable = false, $defaultExtras = null, $exclude = false, $displayCondition = null) {
+    $this->addColumn($name, $label, [
+        'type' => 'select',
+        'renderType' => 'selectMultipleSideBySide',
+        'items' => $items,
+        'minitems' => $minitems,
+        'maxitems' => $maxitems,
+    ], $searchable, $defaultExtras, $exclude, $displayCondition);
+
+    return $this;
+  }
 
   /**
    * @param string $name
