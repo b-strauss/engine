@@ -401,7 +401,7 @@ class Builder {
   /**
    * @return $this
    */
-  public function addLanguageSelector() {
+  public function addLanguageSelect() {
     if ($this->explicitLocalization)
       $this->showItem .= 'sys_language_uid,';
 
