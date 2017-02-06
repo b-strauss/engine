@@ -162,7 +162,7 @@ class PluginUtility {
    * @param string $group the type of the group.
    *                      The four default groups are: "common", "special", "forms" and "plugins".
    * @param string $nameOfGroup the localized name of the group, if the group is not one of the default groups
-   * @param bool $hideDefaultContent hide all content elements except custom added ones
+   * @param bool $hideDefaultContent hide all tabs elements except custom added ones
    */
   private function addNewContentElement($group = 'common', $nameOfGroup = null, $hideDefaultContent = false) {
     $cType = $this->pluginSignature;
