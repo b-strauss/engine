@@ -51,7 +51,7 @@ class Builder {
   /**
    * @var bool
    */
-  private $explicitLocalization;
+  private $explicitLocalization = false;
 
   /**
    * @var string
@@ -89,18 +89,16 @@ class Builder {
    * @param string $label
    * @param bool $hideable
    * @param bool $timeable
-   * @param bool $explicitLocalization
    * @param string $labelAlt
    * @param bool $labelAltForce
    */
-  public function __construct($tableName, $title, $label, $hideable = false, $timeable = false, $explicitLocalization = false,
-      $labelAlt = '', $labelAltForce = false) {
+  public function __construct($tableName, $title, $label, $hideable = false, $timeable = false, $labelAlt = '',
+      $labelAltForce = false) {
     $this->tableName = $tableName;
     $this->title = $title;
     $this->label = $label;
     $this->hideable = $hideable;
     $this->timeable = $timeable;
-    $this->explicitLocalization = $explicitLocalization;
     $this->labelAlt = $labelAlt;
     $this->labelAltForce = $labelAltForce;
 
@@ -158,44 +156,6 @@ class Builder {
             'type' => 'passthrough',
         ],
     ];
-
-    if ($this->explicitLocalization) {
-      $this->showRecordFieldList[] = 'sys_language_uid';
-
-      $this->columns['sys_language_uid'] = [
-          'exclude' => 1,
-          'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.language',
-          'config' => [
-              'type' => 'select',
-              'foreign_table' => 'sys_language',
-              'foreign_table_where' => 'ORDER BY sys_language.title',
-              'items' => [
-                  ['LLL:EXT:lang/locallang_general.xml:LGL.allLanguages', -1],
-                  ['LLL:EXT:lang/locallang_general.xml:LGL.default_value', 0],
-              ],
-          ],
-      ];
-
-      $this->columns['l18n_diffsource'] = [
-          'config' => [
-              'type' => 'passthrough',
-          ],
-      ];
-
-      $this->columns['l18n_parent'] = [
-          'displayCond' => 'FIELD:sys_language_uid:>:0',
-          'exclude' => 1,
-          'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.l18n_parent',
-          'config' => [
-              'type' => 'select',
-              'items' => [
-                  ['', 0],
-              ],
-              'foreign_table' => $tableName,
-              'foreign_table_where' => "AND $tableName.uid=###CURRENT_PID### AND $tableName.sys_language_uid IN (-1,0)",
-          ],
-      ];
-    }
   }
 
   /**
@@ -415,11 +375,50 @@ class Builder {
   }
 
   /**
+   * @param bool $exclude
    * @return $this
    */
-  public function addLanguageSelect() {
-    if ($this->explicitLocalization)
-      $this->showItem .= 'sys_language_uid,';
+  public function addLanguageSelect($exclude = false) {
+    $this->explicitLocalization = true;
+    $excludeFlag = $exclude ? 1 : 0;
+
+    $this->showItem .= 'sys_language_uid, l18n_parent,';
+
+    $this->showRecordFieldList[] = 'sys_language_uid';
+
+    $this->columns['sys_language_uid'] = [
+        'exclude' => $excludeFlag,
+        'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.language',
+        'config' => [
+            'type' => 'select',
+            'foreign_table' => 'sys_language',
+            'foreign_table_where' => 'ORDER BY sys_language.title',
+            'items' => [
+                ['LLL:EXT:lang/locallang_general.xml:LGL.allLanguages', -1],
+                ['LLL:EXT:lang/locallang_general.xml:LGL.default_value', 0],
+            ],
+        ],
+    ];
+
+    $this->columns['l18n_diffsource'] = [
+        'config' => [
+            'type' => 'passthrough',
+        ],
+    ];
+
+    $this->columns['l18n_parent'] = [
+        'displayCond' => 'FIELD:sys_language_uid:>:0',
+        'exclude' => $excludeFlag,
+        'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.l18n_parent',
+        'config' => [
+            'type' => 'select',
+            'items' => [
+                ['', 0],
+            ],
+            'foreign_table' => $this->tableName,
+            'foreign_table_where' => "AND $this->tableName.pid=###CURRENT_PID### AND $this->tableName.sys_language_uid IN (-1,0)",
+        ],
+    ];
 
     return $this;
   }
