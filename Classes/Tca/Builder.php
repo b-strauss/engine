@@ -209,7 +209,7 @@ class Builder {
    * @param string $eval
    * @param string $placeholder
    * @param bool $searchable
-   * @param null $defaultExtras
+   * @param string|null $defaultExtras
    * @param bool $exclude
    * @param null|string|array $displayCondition
    * @return $this
@@ -235,7 +235,7 @@ class Builder {
    * @param string $eval
    * @param string $placeholder
    * @param bool $searchable
-   * @param null $defaultExtras
+   * @param string|null $defaultExtras
    * @param bool $exclude
    * @param null|string|array $displayCondition
    * @return $this
@@ -258,7 +258,7 @@ class Builder {
    * @param string $name
    * @param string $label
    * @param bool $searchable
-   * @param null $defaultExtras
+   * @param string|null $defaultExtras
    * @param bool $exclude
    * @param null|string|array $displayCondition
    * @return $this
@@ -277,7 +277,7 @@ class Builder {
    * @param string $label
    * @param array $items
    * @param bool $searchable
-   * @param null $defaultExtras
+   * @param string|null $defaultExtras
    * @param bool $exclude
    * @param null|string|array $displayCondition
    * @return $this
@@ -297,7 +297,7 @@ class Builder {
    * @param string $label
    * @param array $items
    * @param bool $searchable
-   * @param null $defaultExtras
+   * @param string|null $defaultExtras
    * @param bool $exclude
    * @param null|string|array $displayCondition
    * @return $this
@@ -320,7 +320,7 @@ class Builder {
    * @param int $minitems
    * @param int $maxitems
    * @param bool $searchable
-   * @param null $defaultExtras
+   * @param string|null $defaultExtras
    * @param bool $exclude
    * @param null|string|array $displayCondition
    * @return $this
@@ -344,7 +344,7 @@ class Builder {
    * @param int $maxItems
    * @param string $fileTypes
    * @param bool $searchable
-   * @param null $defaultExtras
+   * @param string|null $defaultExtras
    * @param bool $exclude
    * @param null|string|array $displayCondition
    * @return $this
@@ -370,6 +370,25 @@ class Builder {
         ],
         $fileTypes
     ), $searchable, $defaultExtras, $exclude, $displayCondition);
+
+    return $this;
+  }
+
+  /**
+   * @param string $name
+   * @param string $label
+   * @param bool $searchable
+   * @param bool $exclude
+   * @param null|string|array $displayCondition
+   * @return $this
+   */
+  public function addRte($name, $label,
+      $searchable = false, $exclude = false, $displayCondition = null) {
+    $this->addColumn($name, $label, [
+        'type' => 'text',
+        'cols' => 40,
+        'rows' => 15,
+    ], $searchable, 'richtext[]:rte_transform[mode=ts_links]', $exclude, $displayCondition);
 
     return $this;
   }
