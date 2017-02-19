@@ -3,6 +3,7 @@
 namespace BStrauss\Engine\Plugin;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Fluid\View\StandaloneView;
 
 abstract class BackendPreviewRenderer {
   /**
@@ -42,7 +43,7 @@ abstract class BackendPreviewRenderer {
     $this->contentUid = $contentUid;
 
     /** @var \TYPO3\CMS\Fluid\View\StandaloneView $contentView */
-    $this->view = $this->objectManager->get('TYPO3\\CMS\\Fluid\\View\\StandaloneView');
+    $this->view = $this->objectManager->get(StandaloneView::class);
 
     $fluidRootPath = GeneralUtility::getFileAbsFileName("EXT:$this->extensionKey/Resources/Private/");
 
