@@ -15,6 +15,10 @@
         <source>General</source>
         <target>Allgemein</target>
       </trans-unit>
+      <trans-unit id="tca.link" xml:space="preserve">
+        <source>Link</source>
+        <target>Link</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

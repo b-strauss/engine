@@ -12,6 +12,9 @@
       <trans-unit id="backend_tab.general" xml:space="preserve">
         <source>General</source>
       </trans-unit>
+      <trans-unit id="tca.link" xml:space="preserve">
+        <source>Link</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

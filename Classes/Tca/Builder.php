@@ -394,6 +394,44 @@ class Builder {
   }
 
   /**
+   * @param string $name
+   * @param string $label
+   * @param string $blindLinkOptions
+   * @param string $blindLinkFields
+   * @param bool $searchable
+   * @param string|null $defaultExtras
+   * @param bool $exclude
+   * @param null|string|array $displayCondition
+   * @return $this
+   */
+  public function addLink($name, $label, $blindLinkOptions = '', $blindLinkFields = '',
+      $searchable = false, $defaultExtras = null, $exclude = false, $displayCondition = null) {
+    $this->addColumn($name, $label, [
+        'type' => 'input',
+        'size' => 30,
+        'eval' => 'trim',
+        'wizards' => [
+            'link' => [
+                'type' => 'popup',
+                'title' => 'LLL:EXT:engine/Resources/Private/Language/locallang_be.xlf:tca.link',
+                'icon' => 'actions-wizard-link',
+                'module' => [
+                    'name' => 'wizard_link',
+                ],
+                'params' => [
+                    'blindLinkOptions' => $blindLinkOptions,
+                    'blindLinkFields' => $blindLinkFields,
+                ],
+                'JSopenParams' => 'width=800,height=600,status=0,menubar=0,scrollbars=1',
+            ],
+        ],
+        'softref' => 'typolink',
+    ], $searchable, $defaultExtras, $exclude, $displayCondition);
+
+    return $this;
+  }
+
+  /**
    * @param bool $exclude
    * @return $this
    */
