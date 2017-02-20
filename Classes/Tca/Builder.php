@@ -388,7 +388,7 @@ class Builder {
         'type' => 'text',
         'cols' => 40,
         'rows' => 15,
-    ], $searchable, 'richtext[]:rte_transform[mode=ts_links]', $exclude, $displayCondition);
+    ], $searchable, 'richtext:rte_transform', $exclude, $displayCondition);
 
     return $this;
   }
