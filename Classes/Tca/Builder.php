@@ -9,18 +9,25 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
  * https://docs.typo3.org/typo3cms/TCAReference/Reference/Index.html
  *
  * Default fields:
- * - uid
- * - created_at
- * - created_by
- * - modified_at
- * - deleted
- * - sorting
- * - tt_content
+ * - uid                 INT(10) NOT NULL AUTO_INCREMENT
+ *                       PRIMARY KEY (uid)
+ * - pid                 INT(10) NOT NULL
+ * - created_at          INT(10) NOT NULL
+ * - created_by          INT(10) NOT NULL
+ * - modified_at         INT(10) NOT NULL
+ * - deleted             TINYINT(3) NOT NULL
+ * - sorting             INT(10) NOT NULL DEFAULT 0
+ * - tt_content          INT(10) DEFAULT NULL
  *
  * Optional fields:
- * - hidden
- * - starttime
- * - endtime
+ * - hidden              TINYINT(3) NOT NULL DEFAULT 0
+ * - starttime           INT(10) NOT NULL DEFAULT 0
+ * - endtime             INT(10) NOT NULL DEFAULT 0
+ *
+ * Localization fields:
+ * - sys_language_uid    INT(10) NOT NULL DEFAULT 0
+ * - l18n_parent         INT(10) NOT NULL DEFAULT 0
+ * - l18n_diffsource     MEDIUMBLOB NOT NULL DEFAULT ''
  */
 class Builder {
   /**
@@ -204,6 +211,8 @@ class Builder {
   }
 
   /**
+   * SQL type: VARCHAR(255) NOT NULL DEFAULT ''
+   *
    * @param string $name
    * @param string $label
    * @param string $eval
@@ -230,6 +239,8 @@ class Builder {
   }
 
   /**
+   * SQL type: TEXT NOT NULL DEFAULT ''
+   *
    * @param string $name
    * @param string $label
    * @param string $eval
@@ -255,6 +266,8 @@ class Builder {
   }
 
   /**
+   * SQL type: TINYINT(3) NOT NULL DEFAULT 0
+   *
    * @param string $name
    * @param string $label
    * @param bool $searchable
@@ -273,6 +286,8 @@ class Builder {
   }
 
   /**
+   * SQL type: VARCHAR(255) NOT NULL DEFAULT ''
+   *
    * @param string $name
    * @param string $label
    * @param array $items
@@ -293,6 +308,8 @@ class Builder {
   }
 
   /**
+   * SQL type: VARCHAR(255) NOT NULL DEFAULT ''
+   *
    * @param string $name
    * @param string $label
    * @param array $items
@@ -314,6 +331,8 @@ class Builder {
   }
 
   /**
+   * SQL type: TEXT NOT NULL DEFAULT ''
+   *
    * @param string $name
    * @param string $label
    * @param array $items
@@ -339,6 +358,8 @@ class Builder {
   }
 
   /**
+   * SQL type: INT(10) UNSIGNED NOT NULL DEFAULT 0
+   *
    * @param string $name
    * @param string $label
    * @param int $maxItems
@@ -375,6 +396,8 @@ class Builder {
   }
 
   /**
+   * SQL type: MEDIUMTEXT NOT NULL DEFAULT ''
+   *
    * @param string $name
    * @param string $label
    * @param bool $searchable
@@ -394,6 +417,8 @@ class Builder {
   }
 
   /**
+   * SQL type: TEXT NOT NULL DEFAULT ''
+   *
    * @param string $name
    * @param string $label
    * @param string $blindLinkOptions
@@ -426,6 +451,52 @@ class Builder {
             ],
         ],
         'softref' => 'typolink',
+    ], $searchable, $defaultExtras, $exclude, $displayCondition);
+
+    return $this;
+  }
+
+  /**
+   * SQL type: DATE DEFAULT NULL
+   *
+   * @param string $name
+   * @param string $label
+   * @param bool $searchable
+   * @param string|null $defaultExtras
+   * @param bool $exclude
+   * @param null|string|array $displayCondition
+   * @return $this
+   */
+  public function addDate($name, $label,
+      $searchable = false, $defaultExtras = null, $exclude = false, $displayCondition = null) {
+    $this->addColumn($name, $label, [
+        'type' => 'input',
+        'size' => 30,
+        'eval' => 'date',
+        'dbType' => 'date',
+    ], $searchable, $defaultExtras, $exclude, $displayCondition);
+
+    return $this;
+  }
+
+  /**
+   * SQL type: DATETIME DEFAULT NULL
+   *
+   * @param string $name
+   * @param string $label
+   * @param bool $searchable
+   * @param string|null $defaultExtras
+   * @param bool $exclude
+   * @param null|string|array $displayCondition
+   * @return $this
+   */
+  public function addDateTime($name, $label,
+      $searchable = false, $defaultExtras = null, $exclude = false, $displayCondition = null) {
+    $this->addColumn($name, $label, [
+        'type' => 'input',
+        'size' => 30,
+        'eval' => 'datetime',
+        'dbType' => 'datetime',
     ], $searchable, $defaultExtras, $exclude, $displayCondition);
 
     return $this;
