@@ -378,7 +378,10 @@ class Builder {
             'maxitems' => $maxItems,
             'foreign_types' => [
                 File::FILETYPE_IMAGE => [
-                    'showitem' => '--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,--palette--;;filePalette',
+                    'showitem' => '
+                      --palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
+                      --palette--;;filePalette
+                    ',
                 ],
             ],
             'appearance' => [
